@@ -5,6 +5,8 @@ DB_PASSWORD=darwish
 sudo systemctl enable postgresql.service
 sudo systemctl start postgresql.service
 
+mkdir -p ${HOME}/.msf4
+
 cat <<EOF> /tmp/pg-utf8.sql
 update pg_database set datallowconn = TRUE where datname = 'template0';
 \c template0
@@ -54,8 +56,6 @@ test:
   <<: *pgsql
   database: msf_test_db
 EOF
-
-sudo cp -vf $HOME/.msf4/database.yml /root/.msf4/
 
 # Create the schema tables
 rake db:migrate RAILS_ENV=test
